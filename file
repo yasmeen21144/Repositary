@@ -1,0 +1,108 @@
+expeiment 17
+# 1. Check Docker version
+docker --version
+
+# 2. Create network (ignore error if already exists)
+docker network create mynetwork
+
+# 3. Run MySQL container
+docker run -d \
+  --name mysql-container \
+  --network mynetwork \
+  -e MYSQL_ROOT_PASSWORD=root \
+  -e MYSQL_DATABASE=mydb \
+  -p 3306:3306 \
+  mysql:latest
+
+# 4. Run phpMyAdmin container
+docker run -d \
+  --name phpmyadmin-container \
+  --network mynetwork \
+  -e PMA_HOST=mysql-container \
+  -p 8080:80 \
+  phpmyadmin/phpmyadmin
+
+# 5. Check running containers
+docker ps  
+
+experiment 16
+
+
+docker pull mysql:latest
+
+docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=root123 -d -p 3306:3306 mysql:latest
+
+docker ps
+
+docker exec -it mysql-container mysql -u root -p
+
+CREATE DATABASE mydb;
+USE mydb;
+
+CREATE TABLE students (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    age INT
+);
+
+INSERT INTO students VALUES (1, 'Vishnu', 20);
+INSERT INTO students VALUES (2, 'Ram', 21);
+
+SELECT * FROM students;
+
+exit
+
+experiment 13
+
+
+13th
+
+docker --version
+docker pull ubuntu
+docker images
+docker run -it ubuntu
+exit
+
+docker ps
+docker ps -a
+
+docker start <container ID>
+docker stop <container ID>
+docker rm <container ID>
+
+Create a Dockerfile:
+
+FROM ubuntu
+RUN apt-get update && apt-get install -y curl
+CMD ["echo", "Hello, Docker!"]
+
+cd (path file)
+rename dockerfile.txt Dockerfile
+
+docker build -t mycustomimage .
+docker run mycustomimage   
+
+
+experiment 14
+
+index.html 
+
+<!DOCTYPE html>
+	<html>
+	<head>
+	    <title>Hello, World!</title>
+	</head>
+	<body>
+	    <h1>Hello, World!</h1>
+	</body>
+	</html>
+
+dockerfile
+
+FROM nginx:latest
+	# Copy the HTML file to the Nginx default directory
+	COPY index.html /usr/share/nginx/html/index.html
+	# Expose port 80
+        EXPOSE 80
+docker build -t my-html-app .
+docker run -d -p 8080:80 my-html-app
